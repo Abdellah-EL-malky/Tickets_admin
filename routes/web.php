@@ -17,6 +17,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/user',[UserController::class, 'index']);
+Route::get('/admin',[UserController::class, 'index']);
+Route::get('/agent',[UserController::class, 'index']);
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');

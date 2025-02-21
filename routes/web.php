@@ -18,8 +18,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::get('/user',[UserController::class, 'index']);
-Route::get('/admin',[UserController::class, 'index']);
-Route::get('/agent',[UserController::class, 'index']);
+Route::get('/admin',[UserController::class, 'admin']);
+Route::get('/agent',[UserController::class, 'agents']);
 
 
 Route::get('/dashboard', function () {

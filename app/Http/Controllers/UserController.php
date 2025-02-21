@@ -11,20 +11,20 @@ class UserController extends Controller
         $user = auth()->user();
 
         return match($user->role) {
-            'admin' => redirect()->route('admin.dashboard'),
-            'manager' => redirect()->route('manager.dashboard'),
-            'user' => redirect()->route('user.dashboard'),
+            'admin' => redirect()->route('adminDashboard'),
+            'agent' => redirect()->route('agentDashboard'),
+            'user' => redirect()->route('userDashboard'),
             default => redirect()->route('login')
         };
     }
     public function adminDashboard()
     {
-        return view('dashboard.admin');
+        return view('adminDashboard');
     }
 
-    public function managerDashboard()
+    public function agentDashboard()
     {
-        return view('dashboard.manager');
+        return view('agentDashboard');
     }
 
     public function userDashboard()

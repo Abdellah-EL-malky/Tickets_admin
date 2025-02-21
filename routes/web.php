@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,12 +15,32 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/', [UserController::class, 'redirect'])
+    ->middleware('auth')
+    ->name('dashboard.redirect');
+
+// Routes spécifiques aux rôles
+Route::middleware(['auth', 'role'])->group(function () {
+    Route::prefix('admin')->middleware('role:admin')->group(function () {
+        Route::get('/dashboard', [UserController::class, 'adminDashboard'])
+            ->name('admin.dashboard');
+    });
+
+    Route::prefix('manager')->middleware('role:manager')->group(function () {
+        Route::get('/dashboard', [UserController::class, 'managerDashboard'])
+            ->name('manager.dashboard');
+    });
+
+    Route::prefix('user')->middleware('role:user')->group(function () {
+        Route::get('/dashboard', [UserController::class, 'userDashboard'])
+            ->name('user.dashboard');
+    });
 });
-Route::get('/user',[UserController::class, 'index']);
-Route::get('/admin',[UserController::class, 'admin']);
-Route::get('/agent',[UserController::class, 'agents']);
+
+    // User routes
+    Route::prefix('user')->middleware('role:user')->group(function () {
+        Route::get('/', [UserController::class, 'userDashboard'])->name('user.dashboard');
+    });
 
 
 Route::get('/dashboard', function () {
